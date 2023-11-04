@@ -1,4 +1,4 @@
-# musicplayapp
+# Music Play App
 Music Play Web App
 This repository contains a simple music player web application built using HTML, CSS, and JavaScript.
 
