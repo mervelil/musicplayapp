@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="../images/icon192.png">
+    <script src="location.txt"></script>
+    <title>Final Exam </title>
+</head>
+
+<body>
+
+<div id=title></div>
+
+<div><h3>Q6</h3>
+<pre id=out6>
+//JavaScript call
+elt("body",
+   elt("h2", "Final exam"), 
+   elt("hr"), 
+   elt("div",
+     elt("p", "6 questions"),    
+     elt("p", "90 minutes")
+   )
+)
+&lt;!--HTML element--&gt;
+&lt;body&gt;
+   &lt;h2&gt;Final exam&lt;/h2&gt;
+   &lt;hr&gt; 
+   &lt;div&gt;
+     &lt;p&gt;6 questions&lt;/p&gt;   
+     &lt;p&gt;90 minutes&lt;/p&gt;
+   &lt;/div&gt;
+&lt;/body&gt;
+</pre></div>
+
+<div><h3>Q1</h3>
+<pre id=out1>
+</pre></div>
+
+<div><h3>Q2</h3>
+<pre id=out2>
+</pre></div>
+
+<div><h3>Q3</h3>
+URL <input type=text id=url value="solution.txt">
+<input type=button value="Q2" onClick="read(url.value)">
+<pre id=out3>
+let n = s.length
+let k = s.split('\n').length
+</pre></div>
+
+<div><h3>Q4</h3>
+<pre id=out4>a) </pre>
+<pre>
+c) map will be faster
+d) red = new Color(200, 90, 0) is Color
+   col = {R, G, B} is Object
+e) in constructor: this.LL = { lat, lon }
+f) for (let c of data) 
+     c.LL = { lat: c.LL[0], lon: c.LL[1] }
+</pre></div>
+
+<div><h3>Q5</h3>
+<input type=button value="Sudden" onClick="b.animate(a1, 1500)">
+<input type=button value="Soft" onClick="b.animate(a2, 3000)">
+<pre id=out5>
+a) makes the document body transparent in 1.5 sec
+   then makes it opaque suddenly
+b) b.style.transition = "opacity 1.5s" 
+   b.style.opacity = 0
+c1) a2 = { opacity: [1, 0, 1] }; b.animate(a2, 3000)
+c2) setTimeout(() => {b.style.opacity=1}, 1500)
+</pre></div>
+
+<script>
+"use strict";
+//Q1
+class Color {  // RGB color 
+  constructor(r, g, b) {
+     this.R = r; this.G = g; this.B = b
+  }
+  toStyle() {  // used as CSS color
+    return "rgb("+ this.R +","+ this.G +","+ this.B +")"
+  }
+  toString() { // "[R=200, G=90, B=0]"
+    return "[R="+ this.R +", G="+ this.G +", B="+ this.B +"]"
+  }
+}
+class City {  // name, LL, color (LL is an Array of 2 numbers)
+  constructor(n, lat, lon, c) {
+     this.name = n; this.LL = [lat, lon]; this.color = c
+  }
+  location() { // use two-digit accuracy
+    return "lat="+ this.LL[0].toFixed(2)
+        +", lon="+ this.LL[1].toFixed(2)
+  }
+  toString() { // "Bolu: lat=40.70, lon=31.60"
+    return this.name +": "+  this.location()
+  }
+}
+const red = new Color(200, 90, 0)
+const c1  = new City("Bolu", 40.7, 31.6, red)
+console.log(red.toStyle(), c1.location())
+out1.innerText = Color+'\n'+City
+   +'\n'+red.toStyle()+'\n'+c1.location()
+
+//Q2
+let union = (a, b) => {
+    let c = new Set()
+    for (let x of a) c.add(x)
+    for (let x of b) c.add(x)
+    return c
+}
+let intersection = (a, b) => 
+    a.filter(x => b.includes(x))
+out2.innerText = 'union = '+union
+    +'\nintersection = '+intersection
+
+//Q3
+function read(f) {
+    fetch(f).then(response).then(text)
+    report("read")
+}
+function response(r) {
+    report("response")
+    return r.text()
+}
+function text(t) {
+    let n = t.length
+    let k = t.split('\n').length
+    report(n+" chars "+k+" lines")
+}
+function report(x) {
+    out3.innerText += x+'\n'
+    console.log(x)
+}
+
+//Q4  cities is read from file location.txt
+const data = cities.split('\n').map(x => { 
+    let [nam, lat, lon] = x.split('\t') //no color
+    return new City(nam, Number(lat), Number(lon))
+})
+let easyFind = (s) => 
+    data.find(c => c.name == s)
+let findCity = (s) => {
+    for (let c of data)
+      if (c.name == s) return c
+    return null
+}
+let toMap = (a) => {
+    let m = new Map()
+    for (let c of a)
+        m.set(c.name, c)
+    return m
+}
+var map
+function readData() {
+  out4.innerText += 'findCity = '+findCity+'\n'+findCity('Bolu')+'\n\n'
+  out4.innerText += 'easyFind = '+easyFind+'\n'+easyFind('Bolu')+'\n\n'
+  let R = 200, G = 90, B = 0, col = {R, G, B}
+  console.log("red:", red, "col:", col)
+  map = toMap(data)
+  console.log("map:", map)
+  out4.innerText += 'b) toMap = '+toMap+'\nmap.get("Bolu")\n'+c1
+}
+
+//Q5
+const a1 = { opacity: [1, 0] }
+const a2 = { opacity: [1, 0, 1] }
+const b = document.body
+
+//Q6
+function elt(type, ...list) {
+  let e = document.createElement(type)
+  for (let c of list) {
+    if (typeof c === "string") 
+       c = document.createTextNode(c);
+    e.appendChild(c)
+  }
+  return e;
+}
+//title.innerText = document.title
+title.append(
+   elt("h2", "Final exam"), 
+   elt("hr"),
+   elt("div",
+     elt("p", "6 questions"),    
+     elt("p", "90 minutes")
+   )
+)
+
+readData() 
+read('https://maeyler.github.io/305/exam/solution.txt')
+
+</script>
+
+</body>
+</html>
