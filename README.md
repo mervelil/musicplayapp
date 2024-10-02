@@ -1,7 +1,7 @@
 # Music Play App
 Music Play Web App
 This repository contains a simple music player web application built using HTML, CSS, and JavaScript.
-https://mervecelik11.github.io/advanced/Music-Player-App/index.html( visit live page)
+visit live page)](https://mervecelik11.github.io/advanced/Music-Player-App/)
 Features:
 Play, Pause, and Stop: Easily control the playback of music tracks.
 Track Progress Bar: Visual representation of the track progress.
